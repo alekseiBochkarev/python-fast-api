@@ -1,5 +1,5 @@
-from pydantic import BaseModel, HttpUrl
-from typing import List
+from pydantic import BaseModel, HttpUrl, EmailStr
+from typing import List, Optional
 
 
 class UserOut(BaseModel):
@@ -12,6 +12,13 @@ class UserOut(BaseModel):
     model_config = {
         "from_attributes": True
     }
+
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    first_name: str
+    last_name: str
+    avatar: Optional[HttpUrl] = None  # может быть пустым или отсутствовать
 
 
 class Support(BaseModel):

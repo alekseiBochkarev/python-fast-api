@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "python-fast-api"
+version = "0.1.0"
+description = "Проект API на fast-api с postgreSQL и тестами (все в докер)"
+authors = ["Алексей Бочкарев <105438413+alekseiBochkarev@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.116.1"
+sqlalchemy = "^2.0.42"
+alembic = "^1.16.4"
+psycopg2-binary = "^2.9.10"
+pydantic = {extras = ["email"], version = "^2.11.7"}
+uvicorn = {extras = ["standard"], version = "^0.35.0"}
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+pytest-mock = "^3.14.1"
+httpx = "^0.28.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

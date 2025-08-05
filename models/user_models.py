@@ -1,5 +1,5 @@
 from pydantic import BaseModel, HttpUrl
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 from models.db import Base
 
 
@@ -11,4 +11,5 @@ class User(Base):
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
     avatar = Column(String, nullable=False)
+    is_deleted = Column(Boolean, default=False)
 

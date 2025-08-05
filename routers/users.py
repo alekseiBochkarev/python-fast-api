@@ -16,12 +16,12 @@ def get_db():
         db.close()
 
 
-@router.get("/{user_id}", response_model=UserResponse)
+@router.get("/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 def get_user(user_id: int, db: Session = Depends(get_db)):
     return get_user_by_id(user_id, db)
 
 
-@router.get("/", response_model=UsersListResponse)
+@router.get("/", response_model=UsersListResponse, status_code=status.HTTP_200_OK)
 def get_users(
     page: int = Query(1, ge=1),
     per_page: int = Query(6, ge=1),

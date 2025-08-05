@@ -1,15 +1,23 @@
 FROM python:3.10-slim
 
+# Установим Poetry
+RUN pip install poetry
+
 WORKDIR /app
 
-# Устанавливаем netcat
 RUN apt-get update && apt-get install -y netcat-openbsd && apt-get clean
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Скопируем только файлы зависимостей
+COPY pyproject.toml poetry.lock ./
+COPY README.md .
 
-# Копируем всё в /app
+# Установим зависимости без виртуального окружения
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-root --no-interaction --no-ansi
+
+# Копируем остальной код в /app
 COPY . .
+
 
 RUN chmod +x /app/entrypoint.sh
 

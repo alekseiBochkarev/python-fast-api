@@ -4,7 +4,8 @@ from models.user_models import User
 BASE_URL = "http://localhost:8000"
 
 
-def test_get_user_by_id_success(db_session, client):
+def test_get_user_by_id_success(db_session):
+    # 1. Получаем юзера из базы
     user = db_session.query(User).first()
     assert user is not None, "В базе нет ни одного пользователя"
 
@@ -22,7 +23,12 @@ def test_get_user_by_id_success(db_session, client):
     assert data["avatar"] == user.avatar
 
 
-def test_get_user_not_found(client):
-    response = requests.get(f"{BASE_URL}/api/users/9999")
+def test_get_user_not_found(db_session):
+    max_id = db_session.query(User.id).order_by(User.id.desc()).first()
+    # 2. Выбираем ID, которого точно нет
+    non_existing_id = (max_id[0] if max_id else 0) + 1000
+
+    # 3. Делаем запрос
+    response = requests.get(f"{BASE_URL}/api/users/{non_existing_id}")
     assert response.status_code == 404
     assert response.json()["detail"] == "User not found"

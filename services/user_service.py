@@ -1,14 +1,16 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from models.user_models import User
+from http import HTTPStatus
 from repositories import user_repository
 from schemas.user_schemas import UsersListResponse, Support, UserResponse, UserCreate, UserOut
 
 
 def get_user_by_id(user_id: int, db: Session) -> UserResponse:
+    if user_id < 1:
+        raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     user = user_repository.get_user_by_id(user_id, db)
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")
 
     support = Support(
         url="https://contentcaddy.io/?utm_source=reqres&utm_medium=json&utm_campaign=referral",
@@ -45,9 +47,11 @@ def create_user(user_data: UserCreate, db: Session) -> UserOut:
 
 
 def delete_user(user_id: int, db: Session) -> dict:
+    if user_id < 1:
+        raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Invalid user id")
     success = user_repository.soft_delete_user(user_id, db)
     if not success:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User not found")
     return {"message": f"User {user_id} deleted"}
 
 

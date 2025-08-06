@@ -43,13 +43,16 @@ docker-compose up -d db
 #### 2. Установить зависимости
 poetry install
 
-#### 3. Применить миграции
+#### 3. Активировать виртуальное окружение
+poetry shell
+
+#### 4. Применить миграции
 poetry run alembic upgrade head
 
-#### 4. Запустить приложение
+#### 5. Запустить приложение
 poetry run uvicorn main:app --reload
 
-#### 5. (опционально) Запустить тесты
+#### 6. (опционально) Запустить тесты
 poetry run pytest
 
 

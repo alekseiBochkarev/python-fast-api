@@ -1,4 +1,3 @@
-from pydantic import BaseModel, HttpUrl
 from sqlalchemy import Column, Integer, String, Boolean
 from models.db import Base
 

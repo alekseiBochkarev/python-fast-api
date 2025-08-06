@@ -4,7 +4,7 @@ from typing import List, Optional
 
 class UserOut(BaseModel):
     id: int
-    email: str
+    email: EmailStr
     first_name: str
     last_name: str
     avatar: HttpUrl

@@ -1,11 +1,23 @@
+import os
+
 import pytest
+import dotenv
 from sqlalchemy.orm import Session
 from fastapi.testclient import TestClient
 from main import app
 from models.db import SessionLocal
 
 
-# Фикстура для тестового клиента FastAPI
+@pytest.fixture(autouse=True)
+def envs():
+    dotenv.load_dotenv()
+
+
+@pytest.fixture()
+def app_url():
+    return os.getenv("APP_URL")
+
+
 @pytest.fixture
 def client():
     return TestClient(app)
